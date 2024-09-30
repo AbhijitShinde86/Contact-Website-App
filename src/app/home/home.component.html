@@ -1,0 +1,89 @@
+<p class="homeText">{{homeText}}</p>
+<section>
+    <div class="d-flex justify-content-between">
+        <h5 class="mb-0">Contacts</h5>
+        <a class="btn btn-success" type="button" (click)="onAddClick()">+ Add New Contact</a>
+    </div>
+    <div class="h-filter bg-white p-2 rounded-corners-4 mt-2">
+        <div class="row justify-content-end">
+            <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm filter-text" placeholder="Search by name..." 
+                  [(ngModel)]="searchText" (ngModelChange)="onSearchClick()" >
+            </div>
+        </div>
+    </div>
+    <div class="h-data mt-3 table-responsive">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Firstname</th>
+                <th scope="col">Lastname</th>
+                <th scope="col">Email</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let record of pageData; let i = index;">
+                    <th scope="row">{{record.id}}</th>
+                    <td>{{record.firstName}}</td>
+                    <td>{{record.lastName}}</td>
+                    <td>{{record.email}}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" (click)="onEditClick(record)">Edit</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" (click)="onDeleteClick(record.id)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <app-pagination [pager]="pager" (setPage)="setPage($event)"></app-pagination>
+    </div>
+</section>
+
+
+
+<div [ngStyle]="{'display':modalDisplayVal}" class="modal show">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{modalTitle}}</h5>
+                <button type="button" class="btn-close" (click)="modalDisplayVal = 'none'"></button>
+            </div>
+            <form [formGroup]="modalForm" (ngSubmit)="onSave()">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-control" formControlName="firstName" placeholder="First Name"                            
+                            [ngClass]="[submitted && mForm.firstName.errors ? 'is-invalid' : '',  submitted && !mForm.firstName.errors ? 'is-valid' : '']" />
+                        <div *ngIf="submitted && mForm.firstName.errors" class="invalid-feedback">
+                            <div *ngIf="mForm.firstName.errors.required"><sup>*</sup>First Name is required</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-control" formControlName="lastName" placeholder="Last Name"                            
+                            [ngClass]="[submitted && mForm.lastName.errors ? 'is-invalid' : '',  submitted && !mForm.lastName.errors ? 'is-valid' : '']" />
+                        <div *ngIf="submitted && mForm.lastName.errors" class="invalid-feedback">
+                            <div *ngIf="mForm.lastName.errors.required"><sup>*</sup>Last Name is required</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="text" class="form-control" formControlName="email" placeholder="Email"                            
+                            [ngClass]="[submitted && mForm.email.errors ? 'is-invalid' : '',  submitted && !mForm.email.errors ? 'is-valid' : '']" />
+                        <div *ngIf="submitted && mForm.email.errors" class="invalid-feedback">
+                            <div *ngIf="mForm.email.errors.required"><sup>*</sup>Email is required</div>
+                            <div *ngIf="mForm.email.errors?.pattern ">Enter valid Email</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

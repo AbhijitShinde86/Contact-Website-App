@@ -1,0 +1,19 @@
+<nav class="mt-4" aria-label="Page" *ngIf="pager.pages.length > 0">
+    <ul *ngIf="pager.pages && pager.pages.length" class="pagination justify-content-center">
+        <li [ngClass]="{'page-item': true , 'disabled':pager.currentPage === 1}">
+            <a class="page-link" (click)="onSetPage(1)">First</a>
+        </li>
+        <li [ngClass]="{'page-item': true , 'disabled':pager.currentPage === 1}">
+            <a class="page-link" (click)="onSetPage(pager.currentPage - 1)">Previous</a>
+        </li>
+        <li *ngFor="let page of pager.pages" [ngClass]="{'page-item': true , 'active':pager.currentPage === page}">
+            <a class="page-link" (click)="onSetPage(page)">{{page}}</a>
+        </li>
+        <li [ngClass]="{'page-item': true , 'disabled':pager.currentPage === pager.totalPages}">
+            <a class="page-link" (click)="onSetPage(pager.currentPage + 1)">Next</a>
+        </li>
+        <li [ngClass]="{'page-item': true , 'disabled':pager.currentPage === pager.totalPages}">
+            <a class="page-link" (click)="onSetPage(pager.totalPages)">Last</a>
+        </li>
+    </ul>
+</nav>   
